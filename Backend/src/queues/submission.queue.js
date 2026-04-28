@@ -1,19 +1,18 @@
-const Queue = require("bull");
+const queue = {
+  // Fake add method
+  add: async (jobData) => {
+    console.log("⚡ Queue disabled");
+    console.log("Job Data:", jobData);
 
-const queue = new Queue("judge-queue", {
-  redis: {
-    host: "127.0.0.1",
-    port: 6379,
-    maxRetriesPerRequest: null,
+    return {
+      id: "demo-job",
+    };
   },
-});
 
-queue.on("ready", () => {
-  console.log("✅ Queue connected");
-});
-
-queue.on("error", (err) => {
-  console.log("❌ Queue error:", err);
-});
+  // Fake event listener
+  on: (event, callback) => {
+    console.log(`Queue event skipped: ${event}`);
+  },
+};
 
 module.exports = queue;
