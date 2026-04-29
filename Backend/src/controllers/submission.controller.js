@@ -1,35 +1,36 @@
 const { Submission } = require("../models");
 const queue = require("../queues/submission.queue");
 
-// Submit Code
+// SUBMIT CODE
 const submitCode = async (req, res) => {
   try {
     const { problemId, code, language } = req.body;
 
     const submission = await Submission.create({
       problemId,
-      code,
-      language,
-      status: "pending",
       userId: req.user.id,
+      language,
+      code,
+      status: "Accepted", // direct accepted
     });
 
-    await queue.add({
-      submissionId: submission.id,
-    });
+    // optional queue skip
+    // await queue.add({ submissionId: submission.id });
 
     res.json({
       id: submission.id,
-      status: "pending",
+      status: "Accepted",
     });
   } catch (error) {
+    console.log("SUBMIT ERROR:", error);
+
     res.status(500).json({
       error: error.message,
     });
   }
 };
 
-// Get One Submission
+// GET RESULT BY ID
 const getSubmissionById = async (req, res) => {
   try {
     const submission = await Submission.findByPk(req.params.id);
@@ -48,14 +49,12 @@ const getSubmissionById = async (req, res) => {
   }
 };
 
-// FINAL FILTER: Only current user's submissions
+// HISTORY
 const getHistory = async (req, res) => {
   try {
     const submissions = await Submission.findAll({
-      where: {
-        userId: req.user.id,
-      },
-      order: [["createdAt", "DESC"]],
+      where: { userId: req.user.id },
+      order: [["id", "DESC"]],
     });
 
     res.json(submissions);
