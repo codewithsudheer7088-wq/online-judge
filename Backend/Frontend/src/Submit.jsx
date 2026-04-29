@@ -7,33 +7,31 @@ export default function Submit() {
   const navigate = useNavigate();
   const { id } = useParams();
 
+  const API = "https://online-judge-xvbw.onrender.com";
+
   const [code, setCode] = useState("");
   const [language, setLanguage] = useState("python");
   const [input, setInput] = useState("");
   const [output, setOutput] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // 🔥 RUN CODE
+  // RUN CODE
   const handleRun = async () => {
     try {
-      const res = await axios.post(
-        "http://localhost:5000/api/code/run",
-        {
-          code,
-          language,
-          input,
-        }
-      );
+      const res = await axios.post(`${API}/api/code/run`, {
+        code,
+        language,
+        input,
+      });
 
       setOutput(res.data.output);
-
     } catch (error) {
       console.log("RUN ERROR:", error);
       setOutput("Run Failed");
     }
   };
 
-  // 🔥 SUBMIT CODE
+  // SUBMIT CODE
   const handleSubmit = async () => {
     try {
       setLoading(true);
@@ -41,7 +39,7 @@ export default function Submit() {
       const token = localStorage.getItem("token");
 
       const res = await axios.post(
-        "http://localhost:5000/api/submission/submit",
+        `${API}/api/submission/submit`,
         {
           problemId: id,
           code,
@@ -55,7 +53,6 @@ export default function Submit() {
       );
 
       navigate(`/result/${res.data.id}`);
-
     } catch (error) {
       console.log("SUBMIT ERROR:", error);
       alert("Submit Failed");
@@ -68,7 +65,7 @@ export default function Submit() {
     <div style={{ padding: "20px" }}>
       <h1>Submit Solution</h1>
 
-      {/* Language */}
+      {/* Language Select */}
       <select
         value={language}
         onChange={(e) => setLanguage(e.target.value)}
@@ -83,7 +80,7 @@ export default function Submit() {
         <option value="java">Java</option>
       </select>
 
-      {/* Monaco Editor */}
+      {/* Code Editor */}
       <Editor
         height="500px"
         language={
@@ -107,7 +104,7 @@ export default function Submit() {
 
       <br />
 
-      {/* Input */}
+      {/* Input Box */}
       <h3>Custom Input</h3>
       <textarea
         rows="5"
@@ -144,7 +141,8 @@ export default function Submit() {
         {loading ? "Submitting..." : "Submit"}
       </button>
 
-      <br /><br />
+      <br />
+      <br />
 
       {/* Output */}
       <h3>Output</h3>

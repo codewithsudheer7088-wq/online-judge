@@ -1,11 +1,19 @@
 const express = require("express");
 const router = express.Router();
 
-const auth = require("../middlewares/auth.middleware");
-const controller = require("../controllers/submission.controller");
+const {
+  submitCode,
+  getSubmissionById,
+  getHistory
+} = require("../controllers/submission.controller");
 
-router.post("/submit", auth, controller.submitCode);
-router.get("/history", auth, controller.getHistory);
-router.get("/:id", controller.getSubmissionById);
+const auth = require("../middlewares/auth.middleware");
+
+// ✅ Specific routes pehle
+router.post("/submit", auth, submitCode);
+router.get("/history", auth, getHistory);
+
+// ✅ Dynamic route baad me
+router.get("/:id", getSubmissionById);
 
 module.exports = router;
