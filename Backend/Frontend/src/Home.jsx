@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import "./app.css";
+import "./App.css";
 
 export default function Home() {
   const [problems, setProblems] = useState([]);
