@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import ProtectedRoute from "./components/ProtectedRoute";
 
-import Home from "./home";
+import Home from "./Home";
 import Problem from "./problem";
 import Submit from "./submit";
 import Result from "./result";
