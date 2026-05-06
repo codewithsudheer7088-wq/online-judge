@@ -1,50 +1,42 @@
-import { useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import axios from "axios";
+import React, { useState } from "react";
 import Editor from "@monaco-editor/react";
+import axios from "axios";
+import { useNavigate, useParams } from "react-router-dom";
 
-export default function Submit() {
-  const navigate = useNavigate();
+const Submit = () => {
+
   const { id } = useParams();
 
-  const API = "https://online-judge-xvbw.onrender.com";
+  const navigate = useNavigate();
 
   const [code, setCode] = useState("");
-  const [language, setLanguage] = useState("python");
-  const [input, setInput] = useState("");
-  const [output, setOutput] = useState("");
-  const [loading, setLoading] = useState(false);
 
-  // RUN CODE
-  const handleRun = async () => {
-    try {
-      const res = await axios.post(`${API}/api/code/run`, {
-        code,
-        language,
-        input,
-      });
+  const [language, setLanguage] =
+    useState("cpp");
 
-      setOutput(res.data.output);
-    } catch (error) {
-      console.log("RUN ERROR:", error);
-      setOutput("Run Failed");
-    }
-  };
+  const [loading, setLoading] =
+    useState(false);
 
-  // SUBMIT CODE
+  // ================= SUBMIT =================
   const handleSubmit = async () => {
+
     try {
+
       setLoading(true);
 
-      const token = localStorage.getItem("token");
+      const token =
+        localStorage.getItem("token");
 
       const res = await axios.post(
-        `${API}/api/submission/submit`,
+
+        "http://localhost:5000/api/submission/submit",
+
         {
           problemId: id,
           code,
           language,
         },
+
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -53,109 +45,185 @@ export default function Submit() {
       );
 
       navigate(`/result/${res.data.id}`);
+
     } catch (error) {
-      console.log("SUBMIT ERROR:", error);
-      alert("Submit Failed");
+
+      console.log(error);
+
+      alert("Submission Failed");
+
     } finally {
+
       setLoading(false);
     }
   };
 
+  // ================= TEMPLATE =================
+  const templates = {
+
+    cpp:
+`#include <iostream>
+using namespace std;
+
+int main() {
+
+    int a, b;
+
+    cin >> a >> b;
+
+    cout << a + b;
+
+    return 0;
+}`,
+
+    c:
+`#include <stdio.h>
+
+int main() {
+
+    int a, b;
+
+    scanf("%d %d", &a, &b);
+
+    printf("%d", a + b);
+
+    return 0;
+}`,
+
+    python:
+`a, b = map(int, input().split())
+
+print(a + b)`,
+
+    javascript:
+`const fs = require("fs");
+
+const input =
+fs.readFileSync(0, "utf-8")
+.trim()
+.split(" ");
+
+const a = Number(input[0]);
+const b = Number(input[1]);
+
+console.log(a + b);`,
+
+    java:
+`import java.util.*;
+
+public class Main {
+
+    public static void main(String[] args) {
+
+        Scanner sc =
+        new Scanner(System.in);
+
+        int a = sc.nextInt();
+        int b = sc.nextInt();
+
+        System.out.println(a + b);
+    }
+}`,
+  };
+
+  // ================= LANGUAGE CHANGE =================
+  const handleLanguageChange = (lang) => {
+
+    setLanguage(lang);
+
+    setCode(templates[lang]);
+  };
+
   return (
-    <div style={{ padding: "20px" }}>
-      <h1>Submit Solution</h1>
+    <div className="max-w-7xl mx-auto p-6">
 
-      {/* Language Select */}
-      <select
-        value={language}
-        onChange={(e) => setLanguage(e.target.value)}
-        style={{
-          padding: "10px",
-          marginBottom: "15px",
-        }}
-      >
-        <option value="python">Python</option>
-        <option value="javascript">JavaScript</option>
-        <option value="cpp">C++</option>
-        <option value="java">Java</option>
-      </select>
+      {/* HEADER */}
+      <div className="flex justify-between items-center mb-6">
 
-      {/* Code Editor */}
-      <Editor
-        height="500px"
-        language={
-          language === "cpp"
-            ? "cpp"
-            : language === "javascript"
-            ? "javascript"
-            : language === "java"
-            ? "java"
-            : "python"
-        }
-        theme="vs-dark"
-        value={code}
-        onChange={(value) => setCode(value || "")}
-        options={{
-          fontSize: 16,
-          minimap: { enabled: false },
-          automaticLayout: true,
-        }}
-      />
+        <h1 className="text-3xl font-bold">
+          Code Editor
+        </h1>
 
-      <br />
+        {/* LANGUAGE */}
+        <select
+          value={language}
+          onChange={(e) =>
+            handleLanguageChange(
+              e.target.value
+            )
+          }
+          className="border p-2 rounded-lg"
+        >
+          <option value="cpp">
+            C++
+          </option>
 
-      {/* Input Box */}
-      <h3>Custom Input</h3>
-      <textarea
-        rows="5"
-        value={input}
-        onChange={(e) => setInput(e.target.value)}
-        placeholder="Enter input..."
-        style={{
-          width: "100%",
-          padding: "10px",
-          marginBottom: "15px",
-        }}
-      />
+          <option value="c">
+            C
+          </option>
 
-      {/* Buttons */}
-      <button
-        onClick={handleRun}
-        style={{
-          padding: "10px 20px",
-          marginRight: "10px",
-          cursor: "pointer",
-        }}
-      >
-        Run
-      </button>
+          <option value="python">
+            Python
+          </option>
 
+          <option value="javascript">
+            JavaScript
+          </option>
+
+          <option value="java">
+            Java
+          </option>
+        </select>
+      </div>
+
+      {/* MONACO EDITOR */}
+      <div className="border rounded-xl overflow-hidden shadow-lg">
+
+        <Editor
+          height="70vh"
+
+          language={
+            language === "cpp"
+              ? "cpp"
+              : language
+          }
+
+          value={code}
+
+          onChange={(value) =>
+            setCode(value || "")
+          }
+
+          theme="vs-dark"
+
+          options={{
+            fontSize: 16,
+
+            minimap: {
+              enabled: false,
+            },
+
+            automaticLayout: true,
+
+            scrollBeyondLastLine: false,
+          }}
+        />
+      </div>
+
+      {/* BUTTON */}
       <button
         onClick={handleSubmit}
+
         disabled={loading}
-        style={{
-          padding: "10px 20px",
-          cursor: "pointer",
-        }}
+
+        className="mt-6 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl text-lg font-semibold"
       >
-        {loading ? "Submitting..." : "Submit"}
+        {loading
+          ? "Submitting..."
+          : "Submit Code"}
       </button>
-
-      <br />
-      <br />
-
-      {/* Output */}
-      <h3>Output</h3>
-      <pre
-        style={{
-          background: "#111",
-          color: "#0f0",
-          padding: "15px",
-          minHeight: "100px",
-        }}
-      >
-        {output}
-      </pre>
     </div>
   );
-}
+};
+
+export default Submit;

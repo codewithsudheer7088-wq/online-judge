@@ -1,47 +1,61 @@
 const { Problem } = require("../models");
 
-// ✅ GET ALL
-exports.getAllProblems = async (req, res) => {
+// 🔥 CREATE PROBLEM
+const createProblem = async (req, res) => {
   try {
-    const problems = await Problem.findAll({
-      attributes: ["id", "title"]
-    });
-    res.json(problems);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-};
-
-// ✅ CREATE PROBLEM (THIS WAS MISSING)
-exports.createProblem = async (req, res) => {
-  try {
-    const { title, description } = req.body;
+    const { title, description, testCases, difficulty } = req.body;
 
     const problem = await Problem.create({
       title,
-      description
+      description,
+      testCases,
+      difficulty,
     });
 
     res.json({
       message: "Problem created",
-      data: problem
+      problem,
     });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 };
 
-// ✅ GET BY ID
-exports.getProblemById = async (req, res) => {
+// 🔥 GET ALL (FILTER)
+const getProblems = async (req, res) => {
+  try {
+    const { difficulty } = req.query;
+
+    let where = {};
+    if (difficulty) {
+      where.difficulty = difficulty;
+    }
+
+    const problems = await Problem.findAll({ where });
+
+    res.json(problems);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+// 🔥 GET ONE
+const getProblemById = async (req, res) => {
   try {
     const problem = await Problem.findByPk(req.params.id);
 
     if (!problem) {
-      return res.status(404).json({ message: "Problem not found" });
+      return res.status(404).json({ error: "Not found" });
     }
 
     res.json(problem);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
+};
+
+module.exports = {
+  createProblem,
+  getProblems,
+  getProblemById,
 };

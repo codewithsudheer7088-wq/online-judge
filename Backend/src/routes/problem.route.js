@@ -1,15 +1,14 @@
 const express = require("express");
 const router = express.Router();
 
-// ✅ IMPORT ALL FUNCTIONS
 const {
-  getAllProblems,
   createProblem,
-  getProblemById
+  getProblems,
+  getProblemById,
 } = require("../controllers/problem.controller");
 
-router.get("/", getAllProblems);
 router.post("/", createProblem);
+router.get("/", getProblems); // 🔥 filter yaha hai
 router.get("/:id", getProblemById);
 
 module.exports = router;

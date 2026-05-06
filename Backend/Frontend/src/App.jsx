@@ -1,61 +1,62 @@
-import { Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
-import Home from "./Home";
-import Problem from "./Problem";
-import Submit from "./Submit";
-import Result from "./Result";
+import Navbar from "./components/Navbar";
+import ProtectedRoute from "./components/ProtectedRoute";
 
-import History from "./pages/History";
+import Home from "./home";
+import Problem from "./problem";
+import Submit from "./submit";
+import Result from "./result";
+
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
-
-import ProtectedRoute from "./components/ProtectedRoute";
+import History from "./pages/History";
+import Leaderboard from "./pages/Leaderboard";
 
 function App() {
   return (
-    <Routes>
-      {/* Public Routes */}
-      <Route path="/" element={<Home />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/signup" element={<Signup />} />
+    <Router>
+      <Navbar />
 
-      {/* Protected Routes */}
-      <Route
-        path="/problem/:id"
-        element={
-          <ProtectedRoute>
-            <Problem />
-          </ProtectedRoute>
-        }
-      />
+      <Routes>
+        {/* Public */}
+        <Route path="/" element={<Home />} />
+        <Route path="/problem/:id" element={<Problem />} />
+        <Route path="/result/:id" element={<Result />} />
 
-      <Route
-        path="/submit/:id"
-        element={
-          <ProtectedRoute>
-            <Submit />
-          </ProtectedRoute>
-        }
-      />
+        {/* Auth */}
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
 
-      <Route
-        path="/result/:id"
-        element={
-          <ProtectedRoute>
-            <Result />
-          </ProtectedRoute>
-        }
-      />
+        {/* Protected */}
+        <Route
+          path="/submit/:id"
+          element={
+            <ProtectedRoute>
+              <Submit />
+            </ProtectedRoute>
+          }
+        />
 
-      <Route
-        path="/history"
-        element={
-          <ProtectedRoute>
-            <History />
-          </ProtectedRoute>
-        }
-      />
-    </Routes>
+        <Route
+          path="/history"
+          element={
+            <ProtectedRoute>
+              <History />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/leaderboard"
+          element={
+            <ProtectedRoute>
+              <Leaderboard />
+            </ProtectedRoute>
+          }
+        />
+      </Routes>
+    </Router>
   );
 }
 

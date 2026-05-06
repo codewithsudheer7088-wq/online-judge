@@ -1,26 +1,24 @@
-import { useParams, Link } from "react-router-dom";
-import { useEffect, useState } from "react";
-import axios from "axios";
+import { useParams, useNavigate } from "react-router-dom";
+import "./app.css"; // ✅ सही path
 
 export default function Problem() {
   const { id } = useParams();
-  const [problem, setProblem] = useState(null);
-
-  useEffect(() => {
-    axios.get(`http://localhost:5000/api/problems/${id}`)
-      .then(res => setProblem(res.data))
-      .catch(err => console.log(err));
-  }, [id]);
-
-  if (!problem) return <div>Loading...</div>;
+  const navigate = useNavigate();
 
   return (
-    <div>
-      <h2>{problem.title}</h2>
-      <p>{problem.description || "No description"}</p>
+    <div className="container">
+      <div className="card">
+        <h1>🧩 Problem</h1>
+        <p>Problem ID: {id}</p>
+        <p>Solve the problem using any language.</p>
 
-      {/* ✅ Dynamic ID pass */}
-      <Link to={`/submit/${id}`}>Solve</Link>
+        <button
+          className="btn"
+          onClick={() => navigate(`/submit/${id}`)}
+        >
+          Start Coding 🚀
+        </button>
+      </div>
     </div>
   );
 }

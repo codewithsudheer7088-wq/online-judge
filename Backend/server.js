@@ -12,9 +12,9 @@ const startServer = async () => {
     await sequelize.authenticate();
     console.log("✅ Database connected");
 
-    // ✅ Sync (ONLY for dev)
-    await sequelize.sync();
-    console.log("✅ Tables synced");
+    // 🔥 IMPORTANT FIX (column update के लिए)
+    await sequelize.sync({ alter: true });
+    console.log("✅ Tables synced (updated)");
 
     // ✅ Start server
     app.listen(PORT, () => {

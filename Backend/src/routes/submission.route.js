@@ -4,16 +4,17 @@ const router = express.Router();
 const {
   submitCode,
   getSubmissionById,
-  getHistory
+  getLeaderboard,
+  getUserHistory,
+  getUserStats, // 🔥 NEW
 } = require("../controllers/submission.controller");
 
 const auth = require("../middlewares/auth.middleware");
 
-// ✅ Specific routes pehle
 router.post("/submit", auth, submitCode);
-router.get("/history", auth, getHistory);
-
-// ✅ Dynamic route baad me
+router.get("/leaderboard", getLeaderboard);
+router.get("/history", auth, getUserHistory);
+router.get("/stats", auth, getUserStats); 
 router.get("/:id", getSubmissionById);
 
 module.exports = router;

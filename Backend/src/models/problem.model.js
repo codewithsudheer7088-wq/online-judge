@@ -1,24 +1,35 @@
 module.exports = (sequelize, DataTypes) => {
-  const Problem = sequelize.define("Problem", {
-    id: {
-      type: DataTypes.UUID,
-      primaryKey: true,
-      defaultValue: DataTypes.UUIDV4   // 🔥 THIS FIX
-    },
-    title: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    description: {
-      type: DataTypes.TEXT,
-      allowNull: false
-    }
-  }, {
-    tableName: "problems",
-    schema: "public",
-    freezeTableName: true,
-    timestamps: false
-  });
+  return sequelize.define(
+    "Problem",
+    {
+      id: {
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+        primaryKey: true,
+      },
 
-  return Problem;
+      title: {
+        type: DataTypes.STRING,
+      },
+
+      description: {
+        type: DataTypes.TEXT,
+      },
+
+      testCases: {
+        type: DataTypes.JSON,
+        allowNull: false,
+      },
+
+      // 🔥 NEW FIELD
+      difficulty: {
+        type: DataTypes.STRING,
+        defaultValue: "easy", // easy / medium / hard
+      },
+    },
+    {
+      tableName: "Problems",
+      timestamps: true,
+    }
+  );
 };

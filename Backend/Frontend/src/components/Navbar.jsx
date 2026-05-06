@@ -1,61 +1,54 @@
-import { useNavigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
+import "../app.css";
 
 export default function Navbar() {
-  const navigate = useNavigate();
-
-  const storedUser = localStorage.getItem("user");
-  const user = storedUser ? JSON.parse(storedUser) : null;
-
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
-    navigate("/login");
-  };
+  const token = localStorage.getItem("token");
 
   return (
-    <div
-      style={{
-        background: "#0f172a",
-        color: "white",
-        padding: "15px 30px",
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-        boxShadow: "0 4px 12px rgba(0,0,0,0.3)",
-      }}
-    >
-      <h2 style={{ margin: 0, color: "#38bdf8" }}>
-        online judge
-      </h2>
+    <div className="navbar">
+      {/* LEFT */}
+      <div>
+        <Link className="nav-link" to="/">
+          ⚡ CodeJudge
+        </Link>
+      </div>
 
-      <div style={{ display: "flex", gap: "20px", alignItems: "center" }}>
-        <Link to="/" style={{ color: "white", textDecoration: "none" }}>
+      {/* RIGHT */}
+      <div>
+        <Link className="nav-link" to="/">
           Home
         </Link>
 
-        <Link to="/history" style={{ color: "white", textDecoration: "none" }}>
-          History
+        <Link className="nav-link" to="/leaderboard">
+          🏆 Leaderboard
         </Link>
 
-        {user && (
-          <span style={{ color: "#94a3b8" }}>
-            Hi, {user.name}
-          </span>
+        {token && (
+          <Link className="nav-link" to="/history">
+            History
+          </Link>
         )}
 
-        <button
-          onClick={handleLogout}
-          style={{
-            background: "#ef4444",
-            color: "white",
-            border: "none",
-            padding: "8px 14px",
-            borderRadius: "8px",
-            cursor: "pointer",
-          }}
-        >
-          Logout
-        </button>
+        {!token ? (
+          <>
+            <Link className="nav-link" to="/login">
+              Login
+            </Link>
+            <Link className="nav-link" to="/signup">
+              Signup
+            </Link>
+          </>
+        ) : (
+          <button
+            className="btn"
+            onClick={() => {
+              localStorage.removeItem("token");
+              window.location.reload();
+            }}
+          >
+            Logout
+          </button>
+        )}
       </div>
     </div>
   );

@@ -1,41 +1,78 @@
 module.exports = (sequelize, DataTypes) => {
-  return sequelize.define(
-    "Submission",
-    {
-      id: {
-        type: DataTypes.UUID,
-        defaultValue: DataTypes.UUIDV4,
-        primaryKey: true,
-      },
 
-      problemId: {
-        type: DataTypes.UUID,
-        allowNull: false,
-      },
+  const Submission = sequelize.define("Submission", {
 
-      userId: {
-        type: DataTypes.UUID,
-        allowNull: true,
-      },
-
-      language: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-
-      code: {
-        type: DataTypes.TEXT,
-        allowNull: false,
-      },
-
-      status: {
-        type: DataTypes.STRING,
-        defaultValue: "pending",
-      },
+    id: {
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
+      primaryKey: true,
     },
-    {
-      tableName: "Submissions",
-      timestamps: false,
-    }
-  );
+
+    // ================= USER =================
+    userId: {
+      type: DataTypes.UUID,
+      allowNull: true,
+    },
+
+    // ================= PROBLEM =================
+    problemId: {
+      type: DataTypes.UUID,
+      allowNull: false,
+    },
+
+    // ================= LANGUAGE =================
+    language: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+
+    // ================= CODE =================
+    code: {
+      type: DataTypes.TEXT("long"),
+      allowNull: false,
+    },
+
+    // ================= STATUS =================
+    status: {
+      type: DataTypes.STRING,
+      defaultValue: "Pending",
+    },
+
+    // ================= OUTPUT =================
+    output: {
+      type: DataTypes.TEXT("long"),
+    },
+
+    // ================= EXECUTION TIME =================
+    executionTime: {
+      type: DataTypes.STRING,
+    },
+
+    // ================= MEMORY =================
+    memory: {
+      type: DataTypes.STRING,
+    },
+
+    // ================= TEST CASES =================
+    testCases: {
+      type: DataTypes.JSON,
+      defaultValue: [],
+    },
+
+  });
+
+  // ================= ASSOCIATIONS =================
+  Submission.associate = (models) => {
+
+    Submission.belongsTo(models.User, {
+      foreignKey: "userId",
+    });
+
+    Submission.belongsTo(models.Problem, {
+      foreignKey: "problemId",
+    });
+
+  };
+
+  return Submission;
 };
