@@ -1,5 +1,5 @@
 import { useParams, useNavigate } from "react-router-dom";
-import "./app.css"; // ✅ सही path
+import "./App.css"; // ✅ सही path
 
 export default function Problem() {
   const { id } = useParams();
