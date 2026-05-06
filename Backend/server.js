@@ -13,7 +13,7 @@ const startServer = async () => {
     console.log("✅ Database connected");
 
     // 🔥 IMPORTANT FIX (column update के लिए)
-    await sequelize.sync({ alter: true });
+    await sequelize.sync({ force: false });
     console.log("✅ Tables synced (updated)");
 
     // ✅ Start server
