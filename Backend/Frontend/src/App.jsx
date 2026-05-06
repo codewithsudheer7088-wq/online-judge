@@ -4,9 +4,9 @@ import Navbar from "./components/Navbar";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 import Home from "./Home";
-import Problem from "./problem";
-import Submit from "./submit";
-import Result from "./result";
+import Problem from "./Problem";
+import Submit from "./Submit";
+import Result from "./Result";
 
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
