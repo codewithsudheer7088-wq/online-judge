@@ -12,7 +12,7 @@ export default function Signup() {
   const handleSignup = async () => {
     try {
       await axios.post(
-        "http://localhost:5000/api/auth/register",
+        "http://online-judge-xvbw.onrender.com/api/auth/register",
         {
           name,
           email,

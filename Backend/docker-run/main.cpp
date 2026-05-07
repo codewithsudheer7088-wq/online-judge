@@ -2,9 +2,12 @@
 using namespace std;
 
 int main() {
-    int a,b;
+
+    int a, b;
+
     cin >> a >> b;
 
-    // ❌ intentionally wrong
-    cout << a;
+    cout << a + b;
+
+    return 0;
 }
