@@ -11,7 +11,7 @@ export default function Login() {
   const handleLogin = async () => {
     try {
       const res = await axios.post(
-        "http://online-judge-xvbw.onrender.com/api/auth/login",
+        "https://online-judge-xvbw.onrender.com/api/auth/login",
         {
           email,
           password,

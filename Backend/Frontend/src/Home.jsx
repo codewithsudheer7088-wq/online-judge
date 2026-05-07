@@ -10,7 +10,7 @@ export default function Home() {
   useEffect(() => {
     axios
       .get(
-        `http://online-judge-xvbw.onrender.com/api/problems${
+        `https://online-judge-xvbw.onrender.com/api/problems${
           filter ? `?difficulty=${filter}` : ""
         }`
       )

@@ -29,7 +29,7 @@ const Submit = () => {
 
       const res = await axios.post(
 
-        "http://online-judge-xvbw.onrender.com/api/submission/submit",
+        "https://online-judge-xvbw.onrender.com/api/submission/submit",
 
         {
           problemId: id,

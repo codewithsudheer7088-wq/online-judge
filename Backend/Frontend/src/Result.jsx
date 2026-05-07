@@ -15,7 +15,7 @@ const Result = () => {
   const fetchResult = async () => {
     try {
       const res = await axios.get(
-        `http://online-judge-xvbw.onrender.com/api/submission/${id}`
+        `https://online-judge-xvbw.onrender.com/api/submission/${id}`
       );
 
       setResult(res.data);

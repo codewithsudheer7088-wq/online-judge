@@ -9,7 +9,7 @@ export default function History() {
     const token = localStorage.getItem("token");
 
     axios
-      .get("http://online-judge-xvbw.onrender.com/api/submission/history", {
+      .get("https://online-judge-xvbw.onrender.com/api/submission/history", {
         headers: {
           Authorization: `Bearer ${token}`,
         },

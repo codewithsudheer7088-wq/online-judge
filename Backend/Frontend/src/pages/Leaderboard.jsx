@@ -7,7 +7,7 @@ export default function Leaderboard() {
 
   useEffect(() => {
     axios
-      .get("http://online-judge-xvbw.onrender.com/api/submission/leaderboard")
+      .get("https://online-judge-xvbw.onrender.com/api/submission/leaderboard")
       .then((res) => setData(res.data))
       .catch((err) => console.log(err));
   }, []);
