@@ -59,6 +59,10 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: [],
     },
 
+  },
+
+  {
+    timestamps: false
   });
 
   // ================= ASSOCIATIONS =================
