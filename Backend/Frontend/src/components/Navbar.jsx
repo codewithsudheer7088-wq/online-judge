@@ -2,10 +2,12 @@ import { Link } from "react-router-dom";
 import "../App.css";
 
 export default function Navbar() {
+
   const token = localStorage.getItem("token");
 
   return (
     <div className="navbar">
+
       {/* LEFT */}
       <div>
         <Link className="nav-link" to="/">
@@ -15,25 +17,25 @@ export default function Navbar() {
 
       {/* RIGHT */}
       <div>
+
         <Link className="nav-link" to="/">
           Home
+        </Link>
+
+        <Link className="nav-link" to="/history">
+          📜 History
         </Link>
 
         <Link className="nav-link" to="/leaderboard">
           🏆 Leaderboard
         </Link>
 
-        {token && (
-          <Link className="nav-link" to="/history">
-            History
-          </Link>
-        )}
-
         {!token ? (
           <>
             <Link className="nav-link" to="/login">
               Login
             </Link>
+
             <Link className="nav-link" to="/signup">
               Signup
             </Link>
@@ -49,6 +51,7 @@ export default function Navbar() {
             Logout
           </button>
         )}
+
       </div>
     </div>
   );
