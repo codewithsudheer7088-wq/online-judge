@@ -62,7 +62,8 @@ module.exports = (sequelize, DataTypes) => {
   },
 
   {
-    timestamps: false
+    tableName: "Submissions",
+    timestamps: true
   });
 
   // ================= ASSOCIATIONS =================
