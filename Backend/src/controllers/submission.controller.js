@@ -321,9 +321,6 @@ const getUserHistory = async (req, res) => {
 
         memory:
           s.memory,
-
-        createdAt:
-          s.createdAt,
       }));
 
     return res.json(history);
