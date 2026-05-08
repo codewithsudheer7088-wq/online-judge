@@ -22,6 +22,10 @@ export default function Navbar() {
           Home
         </Link>
 
+        <Link className="nav-link" to="/problems">
+          📚 Problems
+        </Link>
+
         <Link className="nav-link" to="/history">
           📜 History
         </Link>
