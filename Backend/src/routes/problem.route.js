@@ -15,9 +15,6 @@ router.post("/", createProblem);
 // GET ALL
 router.get("/", getProblems);
 
-// GET BY ID
-router.get("/:id", getProblemById);
-
 // 🔥 SEED PROBLEMS
 router.get("/seed/data", async (req, res) => {
 
@@ -74,5 +71,8 @@ router.get("/seed/data", async (req, res) => {
 
   res.send("Problems Added");
 });
+
+// GET BY ID
+router.get("/:id", getProblemById);
 
 module.exports = router;
