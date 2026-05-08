@@ -40,16 +40,16 @@ export default function Home() {
           All
         </option>
 
-        <option value="Easy">
-          Easy
+        <option value="easy">
+          easy
         </option>
 
-        <option value="Medium">
-          Medium
+        <option value="medium">
+          medium
         </option>
 
-        <option value="Hard">
-          Hard
+        <option value="hard">
+          hard
         </option>
 
       </select>
