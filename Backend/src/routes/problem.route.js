@@ -7,13 +7,13 @@ const {
   getProblemById,
 } = require("../controllers/problem.controller");
 
-// CREATE PROBLEM
+// CREATE
 router.post("/", createProblem);
 
-// GET ALL PROBLEMS
+// GET ALL
 router.get("/", getProblems);
 
-// GET SINGLE PROBLEM
+// GET BY ID
 router.get("/:id", getProblemById);
 
 module.exports = router;
